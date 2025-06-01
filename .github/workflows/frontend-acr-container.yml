@@ -1,0 +1,68 @@
+name: Build, Push and Deploy Frontend Container to Azure Container Apps
+
+on: 
+  push:
+    branches: ["main"]
+  workflow_run:
+    workflows: ["Create Azure Container App Environment"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+env:
+  LOGIN_SERVER: 'platformtest.azurecr.io'                # ACRのログインサーバー名
+  REGISTRY: 'platformtest'                               # ACRのレジストリ名
+  NAMESPACE: ''                                          # ACRの場合は空欄でOK
+  IMAGE: 'sampleproject-frontend'                        # フロントエンド用イメージ名
+  TAG: 'latest'                                          # タグ
+  RESOURCE_GROUP: 'gdpf-test'
+  # Azure Subscription ID: 8f68802c-09a1-4fb5-98ff-f064a08e66a8
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v4
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }}
+
+    - name: 'Docker Login'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: 'Compose Frontend Docker Image'
+      shell: bash
+      run: |
+        docker build ./frontend -f ./frontend/Dockerfile -t ${{ env.LOGIN_SERVER }}/${{ env.IMAGE }}:${{ env.TAG }}
+        docker push ${{ env.LOGIN_SERVER }}/${{ env.IMAGE }}:${{ env.TAG }}
+
+    - name: 'Set Container App Environment'
+      shell: bash
+      run: |
+        # app-env-createで作成した環境名を指定するだけ
+        echo "CA_GH_ACTION_CONTAINER_APP_ENVIRONMENT=gdpf-app-env" >> $GITHUB_ENV
+        echo "CA_GH_ACTION_ENVIRONMENT_EXISTS=true" >> $GITHUB_ENV
+
+    - name: 'Deploy to Azure Container Apps'
+      uses: azure/container-apps-deploy-action@v1
+      with:
+        resourceGroup: 'gdpf-test'
+        containerAppName: 'gdpf-frontend-app'
+        imageToDeploy: ${{ env.LOGIN_SERVER }}/${{ env.IMAGE }}:${{ env.TAG }}
+        registryUrl: ${{ env.LOGIN_SERVER }}
+        registryUsername: ${{ secrets.REGISTRY_USERNAME }}
+        registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: Azure logout
+      run: |
+        az logout

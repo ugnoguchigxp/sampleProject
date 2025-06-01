@@ -1,0 +1,42 @@
+{
+  "name": "sample-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo for Sample Project",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0"
+  },
+  "scripts": {
+    "husky": "husky",
+    "prepare": "husky",
+    "lint": "pnpm exec lint-staged",
+    "lint:debug": "pnpm exec lint-staged --debug",
+    "build:all": "pnpm --filter backend run build && pnpm --filter frontend run build",
+    "dev": "pnpm run dev:all",
+    "dev:all": "pnpm --parallel --stream run dev",
+    "dev:frontend": "pnpm --filter frontend run dev",
+    "dev:backend": "pnpm --filter backend run dev",
+    "test:all": "pnpm --recursive --stream run test",
+    "test:frontend": "pnpm --filter frontend run test",
+    "test:backend": "pnpm --filter backend run test",
+    "clean": "pnpm --recursive exec -- rm -rf node_modules dist .turbo .next .nuxt build coverage out storybook-static",
+    "db:reset": "pnpm --filter backend run db:reset",
+    "seed:all": "pnpm --filter backend run seed:all",
+    "generate:api": "pnpm --filter backend run generate:openapi",
+    "serve:api": "pnpm --filter backend run serve:openapi",
+    "docker:clean": "docker-compose down --volumes --remove-orphans",
+    "docker:reset": "pnpm run docker:clean && docker-compose up --build",
+    "docker:reset:detach": "pnpm run docker:clean && docker-compose up --build -d"
+  },
+  "dependencies": {},
+  "packageManager": "pnpm@10.11.1",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}

@@ -1,0 +1,81 @@
+import { useState, useRef, useEffect } from 'react';
+
+interface SelectorProps {
+  options: { value: string; label: string }[];
+  onSelect: (value: string) => void;
+  selectedValue?: string;
+  buttonLabel: React.ReactNode;
+}
+
+const Selector: React.FC<SelectorProps> = ({ options, onSelect, selectedValue, buttonLabel }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [openUpwards, setOpenUpwards] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node) &&
+        !event.composedPath().some((el) => (el as HTMLElement).tagName === 'UL')
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      setOpenUpwards(spaceBelow < 200); // 下側のスペースが200px未満の場合、上側に展開
+    }
+  }, [isOpen]);
+
+  const handleSelect = (value: string) => {
+    onSelect(value);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="relative">
+      <button
+        ref={buttonRef}
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 px-3 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none"
+      >
+        {buttonLabel}
+      </button>
+      {isOpen && (
+        <ul
+          className={`absolute ${openUpwards ? 'bottom-full mb-1' : 'top-full mt-1'} left-0 bg-white border rounded-md shadow-lg z-10`}
+        >
+          {options.map((option) => (
+            <li key={option.value}>
+              <button
+                onClick={() => handleSelect(option.value)}
+                className={`block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${
+                  selectedValue === option.value ? 'font-bold' : ''
+                }`}
+              >
+                {option.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+export default Selector;

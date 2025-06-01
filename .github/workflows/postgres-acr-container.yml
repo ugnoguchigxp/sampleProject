@@ -1,0 +1,67 @@
+name: Build, Push and Deploy Postgres Container to Azure Container Apps
+
+on:
+  workflow_run:
+    workflows: ["Create Azure Container App Environment"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+env:
+  LOGIN_SERVER: 'platformtest.azurecr.io'                # ACRのログインサーバー名
+  REGISTRY: 'platformtest'                               # ACRのレジストリ名
+  NAMESPACE: ''                                          # ACRの場合は空欄でOK
+  IMAGE: 'sampleproject-postgres'                        # postgres用イメージ名
+  TAG: '15-alpine'                                       # 必要なバージョンに変更可
+  RESOURCE_GROUP: 'gdpf-test'
+  # Azure Subscription ID: 8f68802c-09a1-4fb5-98ff-f064a08e66a8
+
+jobs:
+  pull-and-push:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v4
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }}
+
+    - name: 'Docker Login'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: 'Pull and Tag Postgres Image'
+      shell: bash
+      run: |
+        docker pull postgres:15-alpine
+        docker tag postgres:15-alpine ${{ env.LOGIN_SERVER }}/${{ env.IMAGE }}:${{ env.TAG }}
+        docker push ${{ env.LOGIN_SERVER }}/${{ env.IMAGE }}:${{ env.TAG }}
+
+    - name: 'Set Container App Environment'
+      shell: bash
+      run: |
+        # app-env-createで作成した環境名を指定するだけ
+        echo "CA_GH_ACTION_CONTAINER_APP_ENVIRONMENT=gdpf-app-env" >> $GITHUB_ENV
+        echo "CA_GH_ACTION_ENVIRONMENT_EXISTS=true" >> $GITHUB_ENV
+
+    - name: 'Deploy to Azure Container Apps'
+      uses: azure/container-apps-deploy-action@v1
+      with:
+        resourceGroup: 'gdpf-test' 
+        containerAppName: 'gdpf-postgres-app' 
+        image: ${{ env.LOGIN_SERVER }}/${{ env.IMAGE }}:${{ env.TAG }}
+        registryUrl: ${{ env.LOGIN_SERVER }}
+        registryUsername: ${{ secrets.REGISTRY_USERNAME }}
+        registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: Azure logout
+      run: |
+        az logout

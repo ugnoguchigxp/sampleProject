@@ -1,0 +1,49 @@
+# Node
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+
+# VSCode
+.vscode/
+
+# TypeScript
+*.tsbuildinfo
+
+# Others
+coverage/
+*.log
+
+# Docker
+*.pid
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal
+
+# Mac
+Icon?
+
+# Frontend
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+
+# Backend
+backend/.next/
+backend/out/
+backend/.turbo/

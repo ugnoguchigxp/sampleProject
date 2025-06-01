@@ -1,0 +1,49 @@
+# Container App Environment 作成専用ワークフロー
+# これを一度だけ実行してください。既に環境が存在する場合は何も起こりません。
+
+name: Create Azure Container App Environment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  RESOURCE_GROUP: 'gdpf-test'
+  ENV_NAME: 'gdpf-app-env'
+  LOCATION: 'japaneast'
+
+jobs:
+  create-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }}
+
+      - name: 'Create Log Analytics Workspace (if not exists)'
+        shell: bash
+        run: |
+          LAW_EXISTS=$(az monitor log-analytics workspace show -g ${{ env.RESOURCE_GROUP }} -n gdpf-app-law --query 'id' -o tsv 2>/dev/null || true)
+          if [[ "$LAW_EXISTS" == '' ]]; then
+            az monitor log-analytics workspace create -g ${{ env.RESOURCE_GROUP }} -n gdpf-app-law --location ${{ env.LOCATION }}
+            LAW_EXISTS=$(az monitor log-analytics workspace show -g ${{ env.RESOURCE_GROUP }} -n gdpf-app-law --query 'id' -o tsv)
+          fi
+          echo "LOG_ANALYTICS_WORKSPACE_ID=$LAW_EXISTS" >> $GITHUB_ENV
+
+      - name: 'Create Container App Environment if not exists'
+        shell: bash
+        run: |
+          EXISTS=$(az containerapp env show -g ${{ env.RESOURCE_GROUP }} -n ${{ env.ENV_NAME }} --query 'name' -o tsv 2>/dev/null || true)
+          if [[ "$EXISTS" == '' ]]; then
+            az containerapp env create -g ${{ env.RESOURCE_GROUP }} -n ${{ env.ENV_NAME }} --location ${{ env.LOCATION }} --log-analytics-workspace-id $LOG_ANALYTICS_WORKSPACE_ID
+            echo "Created Container App Environment: ${{ env.ENV_NAME }}"
+          else
+            echo "Container App Environment ${{ env.ENV_NAME }} already exists."
+          fi
+
+      - name: Azure logout
+        run: |
+          az logout
