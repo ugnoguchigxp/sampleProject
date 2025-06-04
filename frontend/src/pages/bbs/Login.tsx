@@ -86,7 +86,13 @@ const Login: React.FC = () => {
 
           {loginMutation.error && (
             <div className="text-red-600 text-sm text-center">
-              {(loginMutation.error as any)?.response?.data?.error || 'Login failed'}
+              {(() => {
+                const err = loginMutation.error as any;
+                if (err?.response?.data?.error) return err.response.data.error;
+                if (err?.response?.data?.message) return err.response.data.message;
+                if (err?.message) return err.message;
+                return JSON.stringify(err);
+              })()}
             </div>
           )}
 

@@ -18,7 +18,8 @@
     "seed:posts": "tsx prisma/seed-scripts/seed-posts.ts",
     "seed:comments": "tsx prisma/seed-scripts/comments/seed-comments.ts",
     "db:reset": "prisma migrate reset --force && npm run seed:all",
-    "test": "jest --config jest.config.js --runInBand"
+    "test": "jest --config jest.config.js --runInBand",
+    "clean": "rm -rf dist"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
