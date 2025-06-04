@@ -1,8 +1,8 @@
 {
-  "name": "sample-monorepo",
+  "name": "sample",
   "version": "1.0.0",
   "private": true,
-  "description": "Monorepo for Sample Project",
+  "description": "Sample Project",
   "workspaces": [
     "frontend",
     "backend"
@@ -12,8 +12,6 @@
     "lint-staged": "^16.1.0"
   },
   "scripts": {
-    "husky": "husky",
-    "prepare": "husky",
     "lint": "pnpm exec lint-staged",
     "lint:debug": "pnpm exec lint-staged --debug",
     "build:all": "pnpm --filter backend run build && pnpm --filter frontend run build",

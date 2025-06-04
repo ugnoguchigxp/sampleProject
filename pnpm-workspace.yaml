@@ -1,6 +1,3 @@
 packages:
-  # すべてのパッケージを含める
-  - 'frontend'
-  - 'backend'
-  # 将来的に共通ライブラリやパッケージを追加する場合
-  # - 'packages/*'
+  - frontend
+  - backend

@@ -6,8 +6,8 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@10.11.0 --activate
 
 # 依存関係をインストール
-COPY package.json ./
-RUN pnpm install
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --dir ./
 
 # アプリケーションのソースコードをコピー
 COPY . ./
