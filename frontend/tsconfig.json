@@ -26,8 +26,8 @@
     "src/**/*",
     "Test/**/*.test.ts",
     "Test/**/*.test.tsx",
-    "E2E/**/*.spec.ts", 
-    "E2E/**/*.spec.tsx"
-, "Test"  ],
+    "e2e/**/*.spec.ts",
+    "e2e/**/*.spec.tsx"
+  ],
   "references": []
 }

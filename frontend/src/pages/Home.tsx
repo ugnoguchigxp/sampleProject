@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex border-gray-900">
+    <div id="home-page" className="flex border-gray-900">
       <div className="w-1/6 border-r">
       { !isMobile  &&
         <TreeMenu onSelect={handleSelect} />

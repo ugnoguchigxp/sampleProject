@@ -23,12 +23,14 @@ function WizardContent() {
 }
 
 const StepInput: React.FC = () => (
-  <StepProvider>
-    <Steps>
-      <WizardContent />
-    </Steps>
-    <StepNavigation />
-  </StepProvider>
+  <div id="step-input-page">
+    <StepProvider>
+      <Steps>
+        <WizardContent />
+      </Steps>
+      <StepNavigation />
+    </StepProvider>
+  </div>
 );
 
 export default StepInput;

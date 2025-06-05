@@ -29,17 +29,19 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ className }) => {
 
   return (
     <div className={className}>
-      <Selector
-        options={options}
-        onSelect={changeLanguage}
-        selectedValue={i18n.language}
-        buttonLabel={
-          <>
-            <FiGlobe className="text-lg" />
-            {currentLanguageLabel}
-          </>
-        }
-      />
+      <div id="language-selector">
+        <Selector
+          options={options}
+          onSelect={changeLanguage}
+          selectedValue={i18n.language}
+          buttonLabel={
+            <>
+              <FiGlobe className="text-lg" />
+              {currentLanguageLabel}
+            </>
+          }
+        />
+      </div>
     </div>
   );
 };
