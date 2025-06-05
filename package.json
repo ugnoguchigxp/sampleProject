@@ -8,6 +8,7 @@
     "backend"
   ],
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "dotenv-cli": "^8.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0"
