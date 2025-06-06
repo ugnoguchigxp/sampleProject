@@ -30,7 +30,7 @@ const Login: React.FC = () => {
     mutationFn: authApi.login,
     onSuccess: (response) => {
       login(response.data.token, response.data.user);
-      navigate('/bbs/list');
+      navigate('/');
     },
     onError: (error: any) => {
       console.error('Login failed:', error.response?.data?.error || error.message);
