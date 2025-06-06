@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  username  String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  comments  Comment[]
-  posts     Post[]
+  id          String       @id @default(cuid())
+  email       String       @unique
+  username    String       @unique
+  password    String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  comments    Comment[]
+  posts       Post[]
+  attachments UserAttachment[]
 
   @@map("users")
 }
@@ -57,4 +58,55 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@map("comments")
+}
+
+model StorageBlob {
+  id           String             @id @default(uuid())
+  key          String             @unique
+  filename     String
+  contentType  String?
+  metadata     Json?
+  byteSize     BigInt
+  checksum     String
+  createdAt    DateTime           @default(now())
+  serviceName  String
+  
+  attachments  StorageAttachment[]
+
+  @@index([key])
+  @@map("storage_blobs")
+}
+
+model StorageAttachment {
+  id          String      @id @default(uuid())
+  name        String
+  recordType  String
+  recordId    String
+  blobId      String      
+  createdAt   DateTime    @default(now())
+  
+  blob        StorageBlob @relation(fields: [blobId], references: [id], onDelete: Cascade)
+
+  @@unique([name, recordType, recordId])
+  @@index([blobId])
+  @@index([recordType, recordId])
+  @@map("storage_attachments")
+}
+
+model UserAttachment {
+  id               String   @id @default(uuid())
+  title            String?
+  mediaFileName    String
+  mediaContentType String
+  mediaFileSize    BigInt
+  mediaFingerprint String?
+  mediaUpdatedAt   DateTime @default(now())
+  note             String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  uploadedById     String
+  uploadedBy       User     @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+
+  @@index([uploadedById])
+  @@map("user_attachments")
 }

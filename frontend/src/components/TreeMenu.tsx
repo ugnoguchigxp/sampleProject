@@ -1,9 +1,22 @@
 import { Link } from 'react-router-dom';
-import { FaHome, FaCog, FaUser, FaBell, FaQuestionCircle, FaClipboard, FaChevronDown, FaChevronRight, FaPlus, FaMinus } from 'react-icons/fa';
+import {
+  FaHome,
+  FaCog,
+  FaUser,
+  FaBell,
+  FaQuestionCircle,
+  FaClipboard,
+  FaChevronDown,
+  FaChevronRight,
+  FaPlus,
+  FaMinus,
+  FaChartBar,
+  FaCalendarAlt,
+  FaFileAlt,
+} from 'react-icons/fa';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../hooks/useIsMobile';
-
 
 interface TreeNode {
   id: string;
@@ -32,7 +45,7 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
   };
 
   const expandAll = () => {
-    const allNodeIds = new Set(menuData.map(node => node.id));
+    const allNodeIds = new Set(menuData.map((node) => node.id));
     setExpandedNodes(allNodeIds);
   };
 
@@ -74,6 +87,24 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
       path: '/notifications',
       icon: 'FaBell',
     },
+    {
+      id: 'charts',
+      label: 'Sample charts',
+      path: '/charts',
+      icon: 'FaChartBar',
+    },
+    {
+      id: 'dragDrop',
+      label: 'Sample drag & drop',
+      path: '/drag-drop',
+      icon: 'FaCalendarAlt',
+    },
+    {
+      id: 'attachments',
+      label: 'Sample Attachments',
+      path: '/attachments',
+      icon: 'FaFileAlt',
+    },
   ];
 
   const iconMap = {
@@ -83,6 +114,9 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
     FaBell: FaBell,
     FaQuestionCircle: FaQuestionCircle,
     FaClipboard: FaClipboard,
+    FaChartBar: FaChartBar,
+    FaCalendarAlt: FaCalendarAlt,
+    FaFileAlt: FaFileAlt,
   };
 
   const renderTree = (nodes: TreeNode[], level = 0) => {
@@ -103,10 +137,7 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
                   {t(node.id)}
                 </Link>
                 {node.children && (
-                  <button
-                    onClick={() => toggleNode(node.id)}
-                    className="focus:outline-none p-2"
-                  >
+                  <button onClick={() => toggleNode(node.id)} className="focus:outline-none p-2">
                     {isExpanded ? <FaChevronDown /> : <FaChevronRight />}
                   </button>
                 )}
@@ -125,9 +156,7 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
   const treeContent = (
     <div className="tree-menu w-full">
       <div className="control-bar flex justify-between items-center mb-2 bg-primary px-2 py-1 space-x-1 w-full">
-        <div className="flex items-center text-white font-bold">
-          {t('Menu','Menu')}
-        </div>
+        <div className="flex items-center text-white font-bold">{t('Menu', 'Menu')}</div>
         <div className="flex items-center space-x-2">
           <button
             onClick={expandAll}
@@ -145,9 +174,7 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
           </button>
         </div>
       </div>
-      <div className={isMobile ? 'w-full' : 'hidden md:block'}>
-        {renderTree(menuData)}
-      </div>
+      <div className={isMobile ? 'w-full' : 'hidden md:block'}>{renderTree(menuData)}</div>
     </div>
   );
 

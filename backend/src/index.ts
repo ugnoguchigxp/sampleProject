@@ -8,6 +8,8 @@ import { readFileSync } from 'fs';
 import dotenv from 'dotenv';
 // Routes
 import authRoutes from './routes/auth.js';
+import attachmentsRoutes from './routes/user_attachments.js';
+// import storageRoutes from './routes/storage.js';
 // BBS Routes
 import postRoutes from './bbs/routes/posts.js';
 import categoryRoutes from './bbs/routes/categories.js';
@@ -52,6 +54,8 @@ app.get('/openapi.json', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/user_attachments', attachmentsRoutes);
+// app.use('/api/storage', storageRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/categories', categoryRoutes);
 
