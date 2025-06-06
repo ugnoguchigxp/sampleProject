@@ -9,6 +9,7 @@ export const formSchema = z.object({
     notifications: z.boolean(),
     theme: z.enum(['light', 'dark']),
   }),
+  agreement: z.string().optional(), // 追加
 });
 
 type FormData = z.infer<typeof formSchema>;

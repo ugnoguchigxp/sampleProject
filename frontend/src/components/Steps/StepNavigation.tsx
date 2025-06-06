@@ -7,10 +7,17 @@ import { useNavigate } from 'react-router-dom';
 
 export function StepNavigation() {
   const { t } = useTranslation();
-  const { currentStep, nextStep, prevStep, isLastStep, setStep } = useStep();
+  const { currentStep, nextStep, prevStep, isLastStep, setStep, formData } = useStep();
   const navigate = useNavigate();
 
   const steps = ['Welcome', 'Personal Info', 'Preferences', 'Review'];
+
+  // WelcomeステップのNextボタン活性制御用
+  const isWelcomeStep = currentStep === 0;
+  let nextDisabled = false;
+  if (isWelcomeStep) {
+    nextDisabled = formData.agreement !== 'agree';
+  }
 
   return (
     <div className="fixed bottom-0 left-0 w-full bg-white shadow z-50 mt-8 flex justify-between items-center p-4">
@@ -52,6 +59,7 @@ export function StepNavigation() {
 
       <Button
         onClick={isLastStep ? () => navigate('/') : nextStep}
+        disabled={nextDisabled}
         label={isLastStep ? (<><span>{t('complete', 'Complete')}</span><MdCheck className="w-4 h-4" /></>) : (<><span>{t('next', 'Next')}</span><MdArrowForward className="w-4 h-4" /></>)}
         className="text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       />
