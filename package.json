@@ -15,6 +15,7 @@
   "scripts": {
     "lint": "pnpm exec lint-staged",
     "lint:debug": "pnpm exec lint-staged --debug",
+    "install:all": "pnpm --recursive install",
     "build:all": "pnpm --filter backend run build && pnpm --filter frontend run build",
     "build:clean": "pnpm --filter backend run clean && pnpm --filter backend run build && pnpm --filter frontend run clean && pnpm --filter frontend run build",
     "dev": "pnpm run dev:all",
