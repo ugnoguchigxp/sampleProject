@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 function renderValue(value: any) {
   const { t } = useTranslation();
   if (typeof value === 'boolean') return value ? t('yes') : t('no');
-  if (value === undefined || value === null || value === '') return <span className="text-gray-400">未入力</span>;
+  if (value === undefined || value === null || value === '') return <span className="text-gray-400">{t('notEntered')}</span>;
   return String(value);
 }
 
@@ -68,7 +68,7 @@ export function Review() {
             )}
           </div>
         </div>
-        <div className='text-center'> よろしければ完了ボタンを押してください。</div>
+        <div className='text-center'> {t('pleaseClickComplete')}</div>
         <div className='h-40' />
       </div>
     </Steps>

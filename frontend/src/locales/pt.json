@@ -59,7 +59,7 @@
   "passwordRequired": "Senha é obrigatória",
   "passwordsDoNotMatch": "As senhas não coincidem",
   "phone": "Telefone",
-  "pleaseClickComplete": "Clique no botão Concluir",
+  "pleaseClickComplete": "Se você estiver satisfeito, clique no botão Concluir.",
   "postComment": "Publicar comentário",
   "postCreated": "Postagem criada com sucesso",
   "posts": "postagens",
@@ -117,5 +117,6 @@
   },
   "writeComment": "Digite um comentário...",
   "writePostContent": "Digite o conteúdo da postagem...",
-  "yes": "Sim"
+  "yes": "Sim",
+  "notEntered": "Não preenchido"
 }
