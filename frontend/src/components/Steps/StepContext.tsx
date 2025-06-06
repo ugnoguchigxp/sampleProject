@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 import { z } from 'zod';
 
 export const formSchema = z.object({
@@ -32,7 +32,7 @@ const StepContext = createContext<StepContextType | undefined>(undefined);
 
 export function StepProvider({ children }: { children: React.ReactNode }) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<Partial<FormData>>({});
+  const [formData, setFormDataState] = useState<Partial<FormData>>({});
 
   const totalSteps = 4;
 
@@ -54,12 +54,20 @@ export function StepProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // useCallbackでラップし、参照が変わらないようにする
+  const setFormData = useCallback(
+    (data: Partial<FormData>) => {
+      setFormDataState((prev) => ({ ...prev, ...data }));
+    },
+    []
+  );
+
   return (
     <StepContext.Provider
       value={{
         currentStep,
         formData,
-        setFormData: (data) => setFormData((prev) => ({ ...prev, ...data })),
+        setFormData,
         nextStep,
         prevStep,
         setStep,
