@@ -154,6 +154,65 @@
           }
         }
       },
+      "UserAttachment": {
+        "type": "object",
+        "required": [
+          "id",
+          "fileName",
+          "contentType",
+          "fileSize",
+          "uploadedById"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the user attachment"
+          },
+          "title": {
+            "type": "string",
+            "description": "UserAttachment title"
+          },
+          "fileName": {
+            "type": "string",
+            "description": "File name"
+          },
+          "contentType": {
+            "type": "string",
+            "description": "Media content type"
+          },
+          "fileSize": {
+            "type": "integer",
+            "description": "File size (bytes)"
+          },
+          "mediaFingerprint": {
+            "type": "string",
+            "description": "File fingerprint"
+          },
+          "mediaUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Media update time"
+          },
+          "note": {
+            "type": "string",
+            "description": "Notes or description"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Update timestamp"
+          },
+          "uploadedById": {
+            "type": "string",
+            "description": "ID of the user who uploaded the file"
+          }
+        }
+      },
       "Category": {
         "type": "object",
         "properties": {
@@ -454,6 +513,263 @@
           },
           "401": {
             "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/api/user_attachments": {
+      "get": {
+        "summary": "Get all user attachments",
+        "tags": [
+          "UserAttachments"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user attachment list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UserAttachment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Upload new user attachment",
+        "tags": [
+          "UserAttachments"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "media": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "UserAttachments uploaded successfully"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
+    },
+    "/api/user_attachments/{id}": {
+      "get": {
+        "summary": "Get user attachment details by ID",
+        "tags": [
+          "UserAttachments"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user attachment details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAttachment"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "description": "UserAttachment not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update user attachment information",
+        "tags": [
+          "UserAttachments"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "UserAttachment updated successfully"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "UserAttachment not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user attachment",
+        "tags": [
+          "UserAttachments"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UserAttachment deleted successfully"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "UserAttachment not found"
+          }
+        }
+      }
+    },
+    "/api/user_attachments/{id}/download": {
+      "get": {
+        "summary": "Download user attachment",
+        "tags": [
+          "UserAttachments"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UserAttachment file stream",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "UserAttachment not found"
           }
         }
       }

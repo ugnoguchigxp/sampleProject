@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-Register()
+Register();
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://localhost:3002';
 
-function Register( ){
+function Register() {
   test('login画面に遷移し、Registerリンクが表示される', async ({ page }) => {
     await page.goto(baseUrl + '/login');
     await expect(page.getByRole('link', { name: 'Register here' })).toBeVisible();
@@ -12,13 +12,13 @@ function Register( ){
   });
   test('Register画面でフォーム入力と送信', async ({ page }) => {
     // register APIをmock
-    await page.route('**/api/auth/register', async route => {
+    await page.route('**/api/auth/register', async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
           token: 'dummy-token',
-          user: { id: 1, email: 'test@example.com', username: 'testuser' }
+          user: { id: 1, email: 'test@example.com', username: 'testuser' },
         }),
       });
     });
@@ -36,6 +36,5 @@ function Register( ){
     await page.getByRole('textbox', { name: 'Confirm Password' }).click();
     await page.getByRole('textbox', { name: 'Confirm Password' }).fill('testpassword');
     await page.getByRole('button', { name: 'Create your account' }).click();
-    
   });
 }

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { setAuthToken } from './util/auth';
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://localhost:3002';
 
 BBS_E2E();
 
@@ -30,7 +30,7 @@ function BBS_E2E() {
     const select = await page.locator('select#categoryId');
     const options = await select.locator('option').all();
     if (options.length > 2) {
-      const value = await options[2]?.getAttribute('value') ?? '';
+      const value = (await options[2]?.getAttribute('value')) ?? '';
       if (value) {
         await select.selectOption(value);
       }

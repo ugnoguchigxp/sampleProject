@@ -14,7 +14,7 @@ export default defineConfig({
   use: {
     actionTimeout: 0,
     trace: 'on-first-retry',
-    baseURL: 'http://localhost:3000', // Viteサーバーのポートに合わせて修正
+    baseURL: 'http://localhost:3002', // Viteサーバーのポートに合わせて修正
     headless: false, // ブラウザを目視で確認できるように
   },
   projects: [
