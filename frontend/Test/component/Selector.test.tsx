@@ -8,9 +8,14 @@ describe('Selector component', () => {
     { value: 'b', label: 'Option B' },
   ];
 
-  it('renders button label', () => {
+  it('renders button label (buttonLabel指定あり)', () => {
     render(<Selector options={options} onSelect={() => {}} buttonLabel="Select" />);
     expect(screen.getByRole('button', { name: 'Select' })).toBeInTheDocument();
+  });
+
+  it('renders default button label (buttonLabel未指定)', () => {
+    render(<Selector options={options} onSelect={() => {}} />);
+    expect(screen.getByRole('button', { name: '選択してください' })).toBeInTheDocument();
   });
 
   it('opens and displays options when clicked', async () => {
@@ -36,5 +41,15 @@ describe('Selector component', () => {
     render(<Selector options={options} onSelect={() => {}} selectedValue="a" buttonLabel="Select" />);
     await user.click(screen.getByRole('button', { name: 'Select' }));
     expect(screen.getByText('Option A')).toHaveClass('font-bold');
+  });
+
+  it('renders button label (buttonLabel propで指定)', () => {
+    render(<Selector options={options} onSelect={() => {}} buttonLabel="Choose an option" />);
+    expect(screen.getByRole('button', { name: 'Choose an option' })).toBeInTheDocument();
+  });
+
+  it('renders selected option label when buttonLabel is not provided', () => {
+    render(<Selector options={options} onSelect={() => {}} selectedValue="a" />);
+    expect(screen.getByRole('button', { name: 'Option A' })).toBeInTheDocument();
   });
 });

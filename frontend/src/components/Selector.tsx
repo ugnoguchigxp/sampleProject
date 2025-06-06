@@ -6,10 +6,11 @@ interface SelectorProps {
   selectedValue?: string;
   className?: string;
   inputProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  buttonLabel?: string; // 追加
 }
 
 const Selector = forwardRef<HTMLButtonElement, SelectorProps>(
-  ({ options, onSelect, selectedValue, className, inputProps }, ref) => {
+  ({ options, onSelect, selectedValue, className, inputProps, buttonLabel }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const [openUpwards, setOpenUpwards] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -49,7 +50,7 @@ const Selector = forwardRef<HTMLButtonElement, SelectorProps>(
       setIsOpen(false);
     };
 
-    const selectedLabel = options.find((opt) => opt.value === selectedValue)?.label || '選択してください';
+    const selectedLabel = buttonLabel || options.find((opt) => opt.value === selectedValue)?.label || '選択してください';
 
     return (
       <div className="relative">

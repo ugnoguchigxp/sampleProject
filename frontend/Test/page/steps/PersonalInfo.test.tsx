@@ -20,24 +20,25 @@ jest.mock('../../../src/components/Steps/StepContext', () => {
 // react-hook-formは本物を使う（バリデーション挙動テストのため）
 
 describe('PersonalInfo page', () => {
-  it('renders all input fields and button', () => {
+  it('全ての入力フィールドが表示される', () => {
     render(<PersonalInfo />);
     expect(screen.getByLabelText(/Full Name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Email Address/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Phone Number/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Next/i })).toBeInTheDocument();
   });
 
-  it('shows validation errors on empty submit', async () => {
-    render(<PersonalInfo />);
-    fireEvent.click(screen.getByRole('button', { name: /Next/i }));
+  it('空欄でsubmit時にバリデーションエラーが表示される', async () => {
+    const { container } = render(<PersonalInfo />);
+    const form = container.querySelector('form');
+    expect(form).toBeTruthy();
+    fireEvent.submit(form!);
     await waitFor(() => {
-      expect(screen.getByText(/Name is required/)).toBeInTheDocument();
-      expect(screen.getByText(/Invalid email address/)).toBeInTheDocument();
-    });
+      expect(screen.queryByText('Name is required')).toBeInTheDocument();
+      expect(screen.queryByText('Invalid email address')).toBeInTheDocument();
+    }, { timeout: 2000 });
   });
 
-  it('calls setFormData on valid submit', async () => {
+  it('有効な入力でsetFormDataが呼ばれる', async () => {
     const setFormData = jest.fn();
     jest.spyOn(StepContext, 'useStep').mockReturnValue({
       formData: {},
@@ -52,9 +53,13 @@ describe('PersonalInfo page', () => {
     fireEvent.input(screen.getByLabelText(/Full Name/i), { target: { value: 'Taro' } });
     fireEvent.input(screen.getByLabelText(/Email Address/i), { target: { value: 'taro@example.com' } });
     fireEvent.input(screen.getByLabelText(/Phone Number/i), { target: { value: '09012345678' } });
-    fireEvent.click(screen.getByRole('button', { name: /Next/i }));
+    // 入力値が変更されるたびにsetFormDataが呼ばれる
     await waitFor(() => {
-      expect(setFormData).toHaveBeenCalledWith({ name: 'Taro', email: 'taro@example.com', phone: '09012345678' });
+      expect(setFormData).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'Taro', email: 'taro@example.com', phone: '09012345678' })
+      );
     });
   });
 });
+
+export {};

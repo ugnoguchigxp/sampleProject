@@ -15,14 +15,30 @@ let isLastStep = false;
 const mockPrevStep = jest.fn();
 const mockNextStep = jest.fn();
 const mockSetStep = jest.fn();
+const defaultFormData = {
+  agreement: 'agree',
+  name: 'Taro',
+  email: 'taro@example.com',
+  phone: '09012345678',
+  preferences: {
+    notifications: true,
+    fruit: 'apple',
+    favoriteColor: 'blue',
+    feedback: 'This is a feedback message.',
+    satisfaction: 'satisfied',
+    improvement: 'More features',
+  },
+};
+let formData = { ...defaultFormData };
 jest.mock('../../../src/components/Steps/StepContext.tsx', () => ({
-  useStep: () => ({ currentStep, prevStep: mockPrevStep, nextStep: mockNextStep, isLastStep, setStep: mockSetStep }),
+  useStep: () => ({ currentStep, prevStep: mockPrevStep, nextStep: mockNextStep, isLastStep, setStep: mockSetStep, formData }),
 }));
 
 beforeEach(() => {
   mockPrevStep.mockClear();
   mockNextStep.mockClear();
   mockNavigate.mockClear();
+  formData = { ...defaultFormData };
 });
 
 describe('StepNavigation component', () => {
