@@ -7,9 +7,9 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'BBS API Documentation',
+      title: 'SampleProject API Documentation',
       version: version,
-      description: 'API documentation for the BBS (Bulletin Board System) application',
+      description: 'API documentation for the SampleProject application',
       contact: {
         name: 'API Support',
         email: 'support@example.com'

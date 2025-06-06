@@ -34,6 +34,7 @@ const options = {
   apis: [
     path.join(__dirname, '../src/routes/*.ts'),
     path.join(__dirname, '../src/middleware/*.ts'),
+    path.join(__dirname, '../src/bbs/routes/*.ts'), // ← 追加
   ],
 };
 

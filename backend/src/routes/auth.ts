@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction, RequestHandler } from 'express';
-import { PrismaClient } from '@prisma/client';
+import Prisma from '@prisma/client';
+const { PrismaClient } = Prisma;
 import { z } from 'zod';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';

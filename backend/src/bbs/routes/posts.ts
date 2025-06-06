@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import Prisma from '@prisma/client';
 import { z } from 'zod';
 import { authenticate, AuthRequest } from '../../routes/auth.js';
 
@@ -20,6 +20,7 @@ interface UpdatePostBody {
 }
 
 const router: express.Router = express.Router();
+const { PrismaClient } = Prisma;
 const prisma = new PrismaClient();
 
 /**

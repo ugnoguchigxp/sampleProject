@@ -20,6 +20,96 @@
         "description": "JWT token for authentication"
       }
     },
+    "responses": {
+      "UnauthorizedError": {
+        "description": "Access token is missing or invalid",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "InvalidTokenError": {
+        "description": "Invalid or expired token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "Validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "properties": {
+                "error": {
+                  "type": "string"
+                },
+                "issues": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": {
+                "$ref": "#/components/schemas/ValidationError"
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The specified resource was not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
     "schemas": {
       "User": {
         "type": "object",
@@ -185,100 +275,18 @@
           }
         }
       }
-    },
-    "responses": {
-      "ValidationError": {
-        "description": "Validation error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "properties": {
-                "error": {
-                  "type": "string"
-                },
-                "issues": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "code": {
-                        "type": "string"
-                      },
-                      "path": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
-                      "message": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              "items": {
-                "$ref": "#/components/schemas/ValidationError"
-              }
-            }
-          }
-        }
-      },
-      "InternalServerError": {
-        "description": "Internal server error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "NotFound": {
-        "description": "The specified resource was not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Unauthorized",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "UnauthorizedError": {
-        "description": "Access token is missing or invalid",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "InvalidTokenError": {
-        "description": "Invalid or expired token",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      }
     }
   },
   "paths": {
+    "/api/*": {
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ]
+    },
     "/api/auth/register": {
+      "security": [],
       "post": {
         "summary": "Register a new user",
         "tags": [
@@ -349,10 +357,10 @@
             }
           }
         }
-      },
-      "security": []
+      }
     },
     "/api/auth/login": {
+      "security": [],
       "post": {
         "summary": "Authenticate a user",
         "tags": [
@@ -415,8 +423,40 @@
             }
           }
         }
-      },
-      "security": []
+      }
+    },
+    "/api/auth/test": {
+      "get": {
+        "summary": "Test authentication",
+        "tags": [
+          "Authentication"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the authenticated user's ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      }
     },
     "/api/categories": {
       "get": {
@@ -450,6 +490,27 @@
         "tags": [
           "Posts"
         ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number (1-based)"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "maximum": 10
+            },
+            "description": "Number of posts per page (max 10)"
+          }
+        ],
         "responses": {
           "200": {
             "description": "A list of posts",
@@ -457,6 +518,18 @@
               "application/json": {
                 "schema": {
                   "type": "array",
+                  "properties": {
+                    "posts": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Post"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "description": "Total number of posts"
+                    }
+                  },
                   "items": {
                     "$ref": "#/components/schemas/Post"
                   }
@@ -747,13 +820,6 @@
           }
         }
       }
-    },
-    "/api/*": {
-      "security": [
-        {
-          "bearerAuth": []
-        }
-      ]
     }
   },
   "tags": [
