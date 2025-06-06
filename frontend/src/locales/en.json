@@ -74,5 +74,20 @@
   "usernamePlaceholder": "Username",
   "usernameRequired": "Username is required",
   "writeComment": "Please enter a comment...",
-  "writePostContent": "Please enter the post content..."
+  "writePostContent": "Please enter the post content...",
+  "charts": "Sample charts",
+  "sampleCharts": "Sample charts",
+  "lineChart": "Line chart",
+  "barChart": "Bar chart",
+  "pieChart": "Pie chart",
+  "areaChart": "Area chart",
+  "radarChart": "Radar chart",
+  "monthlySales": "Monthly sales performance",
+  "salesComparison": "Revenue vs profit comparison",
+  "salesByCategory": "Sales by category",
+  "customerTrend": "Customer trend",
+  "revenue": "Revenue",
+  "profit": "Profit",
+  "customers": "Customers",
+  "studentPerformance": "Student performance comparison"
 }

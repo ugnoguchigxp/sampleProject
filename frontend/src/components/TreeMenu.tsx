@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaHome, FaCog, FaUser, FaBell, FaQuestionCircle, FaClipboard, FaChevronDown, FaChevronRight, FaPlus, FaMinus } from 'react-icons/fa';
+import { FaHome, FaCog, FaUser, FaBell, FaQuestionCircle, FaClipboard, FaChevronDown, FaChevronRight, FaPlus, FaMinus, FaChartBar } from 'react-icons/fa';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../hooks/useIsMobile';
@@ -74,6 +74,12 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
       path: '/notifications',
       icon: 'FaBell',
     },
+    {
+      id: 'charts',
+      label: 'Sample Charts',
+      path: '/charts',
+      icon: 'FaChartBar',
+    },
   ];
 
   const iconMap = {
@@ -83,6 +89,7 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
     FaBell: FaBell,
     FaQuestionCircle: FaQuestionCircle,
     FaClipboard: FaClipboard,
+    FaChartBar: FaChartBar,
   };
 
   const renderTree = (nodes: TreeNode[], level = 0) => {

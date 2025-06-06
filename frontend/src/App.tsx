@@ -7,6 +7,7 @@ import Register from './pages/bbs/Register';
 import PostDetail from './pages/bbs/PostDetail';
 import List from './pages/bbs/List';
 import StepInput from './pages/StepInput';
+import { Charts } from './pages/SampleCharts';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import NotFound from './pages/NotFound';
 
@@ -53,6 +54,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <PostDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/charts"
+          element={
+            <ProtectedRoute>
+              <Charts />
             </ProtectedRoute>
           }
         />
