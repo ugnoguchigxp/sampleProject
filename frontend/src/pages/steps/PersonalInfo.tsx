@@ -1,19 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import { Steps } from '../../components/Steps/Steps.tsx';
 import { MdPerson } from 'react-icons/md';
 import { useStep } from '../../components/Steps/StepContext.tsx';
-
-// Personal information schema for validation
-const personalInfoSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email address'),
-  phone: z.string().optional(),
-});
-
-type PersonalInfoForm = z.infer<typeof personalInfoSchema>;
+import { personalInfoSchema, PersonalInfoForm } from '../../schemas/personalInfo.schema';
 
 /**
  * PersonalInfo step: collects user's name, email, and phone with validation.
@@ -21,20 +13,29 @@ type PersonalInfoForm = z.infer<typeof personalInfoSchema>;
 export function PersonalInfo() {
   const { formData, setFormData } = useStep();
   const { t } = useTranslation();
-  const { register, handleSubmit, formState: { errors } } = useForm<PersonalInfoForm>({
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<PersonalInfoForm>({
     resolver: zodResolver(personalInfoSchema),
     defaultValues: {
       name: formData.name || '',
       email: formData.email || '',
       phone: formData.phone || '',
     },
+    mode: 'onChange',
   });
 
-  // Sync form state to step context on submit
+  // Sync form state to step context on change
   const onSubmit = (data: PersonalInfoForm) => {
     setFormData(data);
     // 次のステップへの遷移は親コンポーネントで制御
   };
+
+  useEffect(() => {
+    setFormData({
+      name: watch('name'),
+      email: watch('email'),
+      phone: watch('phone'),
+    });
+  }, [watch('name'), watch('email'), watch('phone'), setFormData]);
 
   return (
     <Steps>
@@ -46,7 +47,7 @@ export function PersonalInfo() {
         <div className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              {t('fullName', 'Full Name')}
+              {t('fullName', 'Full Name')} <span className="text-red-500">*</span>
             </label>
             <input
               {...register('name')}
@@ -58,7 +59,7 @@ export function PersonalInfo() {
           </div>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              {t('email', 'Email Address')}
+              {t('email', 'Email Address')} <span className="text-red-500">*</span>
             </label>
             <input
               {...register('email')}
@@ -70,7 +71,7 @@ export function PersonalInfo() {
           </div>
           <div>
             <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-              {t('phone', 'Phone Number')}
+              {t('phone', 'Phone Number')} <span className="text-red-500">*</span>
             </label>
             <input
               {...register('phone')}
@@ -81,9 +82,6 @@ export function PersonalInfo() {
             {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
           </div>
         </div>
-        <button type="submit" className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-md text-sm">
-          {t('next', 'Next')}
-        </button>
       </form>
     </Steps>
   );

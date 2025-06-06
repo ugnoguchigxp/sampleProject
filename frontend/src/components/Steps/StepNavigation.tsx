@@ -4,6 +4,7 @@ import { useStep } from './StepContext.tsx';
 import Button from '../Button.tsx';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { personalInfoSchema } from '../../schemas/personalInfo.schema';
 
 export function StepNavigation() {
   const { t } = useTranslation();
@@ -17,6 +18,17 @@ export function StepNavigation() {
   let nextDisabled = false;
   if (isWelcomeStep) {
     nextDisabled = formData.agreement !== 'agree';
+  }
+
+  // PersonalInfoステップのNextボタン活性制御（zodバリデーションで判定）
+  const isPersonalInfoStep = currentStep === 1;
+  if (isPersonalInfoStep) {
+    const parseResult = personalInfoSchema.safeParse({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+    });
+    nextDisabled = !parseResult.success;
   }
 
   return (
