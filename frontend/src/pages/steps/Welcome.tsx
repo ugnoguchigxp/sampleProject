@@ -50,7 +50,7 @@ export function Welcome() {
                 checked={agreement === 'agree'}
                 onChange={() => setAgreement('agree')}
               />
-              同意する
+              {t('agree', 'I agree')}
             </label>
             <label className="flex items-center gap-2">
               <input
@@ -60,7 +60,7 @@ export function Welcome() {
                 checked={agreement === 'disagree'}
                 onChange={() => setAgreement('disagree')}
               />
-              同意しない
+              {t('disagree', 'I do not agree')}
             </label>
           </div>
         </div>

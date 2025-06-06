@@ -7,9 +7,13 @@ export const formSchema = z.object({
   phone: z.string().min(10, 'Phone number must be at least 10 digits'),
   preferences: z.object({
     notifications: z.boolean(),
-    theme: z.enum(['light', 'dark']),
+    fruit: z.enum(['apple', 'banana', 'orange', 'grape', 'melon', 'other'], { required_error: '好きな果物を選択してください' }),
+    favoriteColor: z.string().min(1, 'Favorite color is required'),
+    feedback: z.string().min(10, 'Please provide at least 10 characters'),
+    satisfaction: z.enum(['very_satisfied', 'satisfied', 'neutral', 'dissatisfied', 'very_dissatisfied']),
+    improvement: z.string().optional(),
   }),
-  agreement: z.string().optional(), // 追加
+  agreement: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;

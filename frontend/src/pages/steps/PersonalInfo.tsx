@@ -35,7 +35,7 @@ export function PersonalInfo() {
       email: watch('email'),
       phone: watch('phone'),
     });
-  }, [watch('name'), watch('email'), watch('phone'), setFormData]);
+  }, [watch('name'), watch('email'), watch('phone'), watch('fruit'), setFormData]);
 
   return (
     <Steps>
@@ -53,7 +53,7 @@ export function PersonalInfo() {
               {...register('name')}
               type="text"
               id="name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-700 focus:border-blue-700 text-sm"
             />
             {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
           </div>
@@ -65,7 +65,7 @@ export function PersonalInfo() {
               {...register('email')}
               type="email"
               id="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-700 focus:border-blue-700 text-sm"
             />
             {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
           </div>
@@ -77,10 +77,11 @@ export function PersonalInfo() {
               {...register('phone')}
               type="tel"
               id="phone"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-700 focus:border-blue-700 text-sm"
             />
             {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
           </div>
+          <div className='h-40'></div>
         </div>
       </form>
     </Steps>
