@@ -1,7 +1,11 @@
 import {
-  AreaChart, Area,
-  XAxis as XAxisType, YAxis as YAxisType,
-  CartesianGrid, Tooltip, ResponsiveContainer
+  AreaChart,
+  Area,
+  XAxis as XAxisType,
+  YAxis as YAxisType,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
 } from 'recharts';
 
 const XAxis = XAxisType as any;
@@ -26,34 +30,27 @@ export function AreaChartComponent({
   xAxisDataKey = 'month',
   dataKey,
   name,
-  color
+  color,
 }: AreaChartComponentProps) {
   return (
     <>
       <h2 className="text-lg font-semibold mb-4">{title}</h2>
-      <div style={{ 
-        height: typeof height === 'string' ? `${height}vh` : `${height}px`,
-        width: typeof width === 'string' ? width : `${width}px`
-      }}>
+      <div
+        style={{
+          height: typeof height === 'string' ? `${height}vh` : `${height}px`,
+          width: typeof width === 'string' ? width : `${width}px`,
+        }}
+      >
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={data}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
+          <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey={xAxisDataKey} />
             <YAxis />
             <Tooltip />
-            <Area 
-              type="monotone" 
-              dataKey={dataKey} 
-              stroke={color} 
-              fill={color} 
-              name={name} 
-            />
+            <Area type="monotone" dataKey={dataKey} stroke={color} fill={color} name={name} />
           </AreaChart>
         </ResponsiveContainer>
       </div>
     </>
   );
-};
+}

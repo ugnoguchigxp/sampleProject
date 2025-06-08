@@ -75,6 +75,7 @@
   "usernameRequired": "Username is required",
   "writeComment": "Please enter a comment...",
   "writePostContent": "Please enter the post content...",
+
   "charts": "Sample charts",
   "sampleCharts": "Sample charts",
   "lineChart": "Line chart",
@@ -89,5 +90,9 @@
   "revenue": "Revenue",
   "profit": "Profit",
   "customers": "Customers",
-  "studentPerformance": "Student performance comparison"
+  "studentPerformance": "Student performance comparisson",
+
+  "dragDrop": "Sample drag & drop",
+  "sampleDragDrop": "Sample drag & drop",
+  "addColumn": "Add Column"
 }

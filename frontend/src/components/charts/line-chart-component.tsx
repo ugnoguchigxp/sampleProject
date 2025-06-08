@@ -1,7 +1,12 @@
 import {
-  LineChart, Line,
-  XAxis as XAxisType, YAxis as YAxisType,
-  CartesianGrid, Tooltip, Legend, ResponsiveContainer
+  LineChart,
+  Line,
+  XAxis as XAxisType,
+  YAxis as YAxisType,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
 } from 'recharts';
 
 const XAxis = XAxisType as any;
@@ -27,20 +32,19 @@ export function LineChartComponent({
   height = '80',
   width = '100%',
   xAxisDataKey = 'month',
-  dataKeys
+  dataKeys,
 }: LineChartComponentProps) {
   return (
     <>
       <h2 className="text-lg font-semibold mb-4">{title}</h2>
-      <div style={{ 
-        height: typeof height === 'string' ? `${height}vh` : `${height}px`, 
-        width: typeof width === 'string' ? width : `${width}px`
-      }}>
+      <div
+        style={{
+          height: typeof height === 'string' ? `${height}vh` : `${height}px`,
+          width: typeof width === 'string' ? width : `${width}px`,
+        }}
+      >
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={data}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
+          <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey={xAxisDataKey} />
             <YAxis />
@@ -61,4 +65,4 @@ export function LineChartComponent({
       </div>
     </>
   );
-};
+}

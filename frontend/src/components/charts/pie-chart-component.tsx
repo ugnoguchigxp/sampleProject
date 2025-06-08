@@ -1,7 +1,4 @@
-import {
-  PieChart, Pie, Cell,
-  Tooltip, Legend, ResponsiveContainer
-} from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface PieChartComponentProps {
   data: {
@@ -26,15 +23,17 @@ export function PieChartComponent({
   dataKey = 'value',
   showPercentage = true,
   innerRadius = 0,
-  outerRadius = 80
+  outerRadius = 80,
 }: PieChartComponentProps) {
   return (
     <>
       <h2 className="text-lg font-semibold mb-4">{title}</h2>
-      <div style={{ 
-        height: typeof height === 'string' ? `${height}vh` : `${height}px`,
-        width: typeof width === 'string' ? width : `${width}px`
-      }}>
+      <div
+        style={{
+          height: typeof height === 'string' ? `${height}vh` : `${height}px`,
+          width: typeof width === 'string' ? width : `${width}px`,
+        }}
+      >
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -42,7 +41,11 @@ export function PieChartComponent({
               cx="50%"
               cy="50%"
               labelLine={showPercentage}
-              label={showPercentage ? ({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%` : undefined}
+              label={
+                showPercentage
+                  ? ({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`
+                  : undefined
+              }
               innerRadius={innerRadius}
               outerRadius={outerRadius}
               fill="#8884d8"
@@ -59,4 +62,4 @@ export function PieChartComponent({
       </div>
     </>
   );
-};
+}

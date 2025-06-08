@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../components/Button';
-import { 
-  LineChartComponent, 
+import {
+  LineChartComponent,
   BarChartComponent,
   PieChartComponent,
   AreaChartComponent,
-  RadarChartComponent
+  RadarChartComponent,
 } from '../components/charts';
 
 export function Charts() {
@@ -81,30 +81,30 @@ export function Charts() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">{t('sampleCharts')}</h1>
-      
+
       <div className="mb-6">
         <div className="flex flex-wrap gap-2 mb-4">
-          <Button 
+          <Button
             label={t('lineChart')}
             onClick={() => setActiveChart('line')}
             className={activeChart === 'line' ? 'bg-blue-500 text-white' : ''}
           />
-          <Button 
+          <Button
             label={t('barChart')}
             onClick={() => setActiveChart('bar')}
             className={activeChart === 'bar' ? 'bg-blue-500 text-white' : ''}
           />
-          <Button 
+          <Button
             label={t('pieChart')}
             onClick={() => setActiveChart('pie')}
             className={activeChart === 'pie' ? 'bg-blue-500 text-white' : ''}
           />
-          <Button 
+          <Button
             label={t('areaChart')}
             onClick={() => setActiveChart('area')}
             className={activeChart === 'area' ? 'bg-blue-500 text-white' : ''}
           />
-          <Button 
+          <Button
             label={t('radarChart')}
             onClick={() => setActiveChart('radar')}
             className={activeChart === 'radar' ? 'bg-blue-500 text-white' : ''}
@@ -113,37 +113,42 @@ export function Charts() {
 
         <div className="bg-white p-4 rounded-lg shadow-sm">
           {activeChart === 'line' && (
-            <LineChartComponent 
-              data={salesData} 
+            <LineChartComponent
+              data={salesData}
               title={t('monthlySales')}
               height="80"
               width="100%"
               dataKeys={[
-                { key: 'revenue', color: '#8884d8', name: t('revenue', 'Revenue'), activeDot: true },
-                { key: 'profit', color: '#82ca9d', name: t('profit', 'Profit') }
+                {
+                  key: 'revenue',
+                  color: '#8884d8',
+                  name: t('revenue', 'Revenue'),
+                  activeDot: true,
+                },
+                { key: 'profit', color: '#82ca9d', name: t('profit', 'Profit') },
               ]}
             />
           )}
 
           {activeChart === 'bar' && (
-            <BarChartComponent 
-              data={salesData} 
+            <BarChartComponent
+              data={salesData}
               title={t('salesComparison')}
               height="80"
               width="100%"
               dataKeys={[
                 { key: 'revenue', color: '#8884d8', name: t('revenue', 'Revenue') },
-                { key: 'profit', color: '#82ca9d', name: t('profit', 'Profit') }
+                { key: 'profit', color: '#82ca9d', name: t('profit', 'Profit') },
               ]}
             />
           )}
 
           {activeChart === 'pie' && (
-            <PieChartComponent 
-              data={categoryData.map(item => ({ 
-                ...item, 
-                name: item.name 
-              }))} 
+            <PieChartComponent
+              data={categoryData.map((item) => ({
+                ...item,
+                name: item.name,
+              }))}
               title={t('salesByCategory')}
               height="80"
               width="100%"
@@ -151,8 +156,8 @@ export function Charts() {
           )}
 
           {activeChart === 'area' && (
-            <AreaChartComponent 
-              data={salesData} 
+            <AreaChartComponent
+              data={salesData}
               title={t('customerTrend', 'Customer Trend')}
               height="80"
               width="100%"
@@ -163,14 +168,14 @@ export function Charts() {
           )}
 
           {activeChart === 'radar' && (
-            <RadarChartComponent 
-              data={radarData} 
+            <RadarChartComponent
+              data={radarData}
               title={t('studentPerformance')}
               height="80"
               width="100%"
               dataKeys={[
                 { key: 'A', color: '#8884d8', name: t('studentA', 'Student A') },
-                { key: 'B', color: '#82ca9d', name: t('studentB', 'Student B') }
+                { key: 'B', color: '#82ca9d', name: t('studentB', 'Student B') },
               ]}
             />
           )}

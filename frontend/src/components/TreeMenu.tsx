@@ -76,9 +76,15 @@ const TreeMenu: React.FC<TreeMenuProps> = ({ onSelect }) => {
     },
     {
       id: 'charts',
-      label: 'Sample Charts',
+      label: 'Sample charts',
       path: '/charts',
       icon: 'FaChartBar',
+    },
+    {
+      id: 'dragDrop',
+      label: 'Sample drag & drop',
+      path: '/drag-drop',
+      icon: 'FaClipboard',
     },
   ];
 

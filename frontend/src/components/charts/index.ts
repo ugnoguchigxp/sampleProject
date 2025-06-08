@@ -1,7 +1,5 @@
-import { AreaChartComponent } from "./AreaChartComponent";
-import { BarChartComponent } from "./BarChartComponent";
-import { LineChartComponent } from "./LineChartComponent";
-import { PieChartComponent } from "./PieChartComponent";
-import { RadarChartComponent } from "./RadarChartComponent";
-
-export { AreaChartComponent, BarChartComponent, LineChartComponent, PieChartComponent, RadarChartComponent };
+export { AreaChartComponent } from './area-chart-component';
+export { BarChartComponent } from './bar-chart-component';
+export { LineChartComponent } from './line-chart-component';
+export { PieChartComponent } from './pie-chart-component';
+export { RadarChartComponent } from './radar-chart-component';
