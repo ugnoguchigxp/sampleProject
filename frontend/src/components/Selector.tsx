@@ -6,7 +6,7 @@ interface SelectorProps {
   selectedValue?: string;
   className?: string;
   inputProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
-  buttonLabel?: string; // 追加
+  buttonLabel?: React.ReactNode; // 追加
 }
 
 const Selector = forwardRef<HTMLButtonElement, SelectorProps>(
