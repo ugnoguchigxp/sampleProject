@@ -49,6 +49,7 @@
   "name": "Name",
   "next": "Weiter",
   "no": "Nein",
+  "noContentRoot": "Kein Inhalt auf der Startseite",
   "noPosts": "Noch keine Beiträge",
   "notEntered": "Nicht eingegeben",
   "notFoundMessage": "Die gesuchte Seite existiert nicht oder wurde verschoben.",

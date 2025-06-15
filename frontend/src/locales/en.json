@@ -49,6 +49,7 @@
   "name": "Name",
   "next": "Next",
   "no": "No",
+  "noContentRoot": "No content on Root Page",
   "noPosts": "No posts yet",
   "notEntered": "Not entered",
   "notFoundMessage": "Oops! The page you're looking for doesn't exist or has been moved.",

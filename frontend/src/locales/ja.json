@@ -49,6 +49,7 @@
   "name": "名前",
   "next": "次へ",
   "no": "いいえ",
+  "noContentRoot": "ルートページにはコンテンツがありません",
   "noPosts": "まだ投稿がありません",
   "notEntered": "未入力",
   "notFoundMessage": "お探しのページは存在しないか、移動されました。",

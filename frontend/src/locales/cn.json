@@ -50,6 +50,7 @@
   "name": "姓名",
   "next": "下一步",
   "no": "否",
+  "noContentRoot": "根页面没有内容",
   "noPosts": "暂无帖子",
   "notEntered": "未输入",
   "notFoundMessage": "您访问的页面不存在或已被移动。",

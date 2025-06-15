@@ -49,6 +49,7 @@
   "name": "Nom",
   "next": "Suivant",
   "no": "Non",
+  "noContentRoot": "Aucun contenu sur la page d'accueil",
   "noPosts": "Aucun post pour le moment",
   "notEntered": "Non saisi",
   "notFoundMessage": "La page que vous recherchez n'existe pas ou a été déplacée.",
