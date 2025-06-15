@@ -87,7 +87,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ onClose }) => {
   };
 
   return (
-    <div className={`modal ${isMobile ? (isClosing ? 'slide-down' : '') : 'relative'}`}>
+    <div id="bbs-create-post-page" className={`modal ${isMobile ? (isClosing ? 'slide-down' : '') : 'relative'}`}>
       <div className="modal-content">
         <div className={`max-w-2xl mx-auto px-4 py-6 ${isMobile ? 'px-2 py-3' : ''}`}>
           <div className="mb-8">
@@ -163,10 +163,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ onClose }) => {
 
             <div className="flex gap-4">
               <Button
+                id="submit-post"
                 label={createPostMutation.status === 'pending' || isSubmitting ? t('creating', 'Creating...') : t('createPost', 'Create Post')}
                 onClick={handleSubmit(onSubmit)}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium disabled:opacity-50 flex items-center justify-center gap-2"
                 disabled={createPostMutation.status === 'pending' || isSubmitting}
+                aria-label={t('createPost', 'Create post')}
               >
                 {createPostMutation.status === 'pending' || isSubmitting ? t('creating', 'Creating...') : t('createPost', 'Create Post')}
                 <FiSend className="inline-block" />

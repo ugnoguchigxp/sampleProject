@@ -42,7 +42,7 @@ const Layout: React.FC = () => {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
-              <LanguageSelector className="mr-4" />
+              <LanguageSelector className="mr-4" id="language-selector" />
               {/* 下の構造から新規投稿　ボタンを受け取ってレンダリング */}
               {newPostButton}
               <Modal isOpen={isModalOpen} onClose={closeModal}>

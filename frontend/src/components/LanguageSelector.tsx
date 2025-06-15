@@ -4,9 +4,10 @@ import Selector from './Selector';
 
 interface LanguageSelectorProps {
   className?: string;
+  id?: string;
 }
 
-const LanguageSelector: React.FC<LanguageSelectorProps> = ({ className }) => {
+const LanguageSelector: React.FC<LanguageSelectorProps> = ({ className, id }) => {
   const { i18n } = useTranslation();
 
   const options = [
@@ -30,6 +31,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ className }) => {
   return (
     <div className={className}>
       <Selector
+        id={id}
         options={options}
         onSelect={changeLanguage}
         selectedValue={i18n.language}

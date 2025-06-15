@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { IconType } from 'react-icons';
 
 type ButtonProps = {
+  id?: string; // ボタンのID
   label?: ReactNode; // ボタンのラベルをReactNode型に変更
   icon?: IconType | ReactNode; // アイコンコンポーネントまたはReactNode
   to?: string; // リンク先 (React Router 用)
@@ -15,6 +16,7 @@ type ButtonProps = {
 
 const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   const {
+    id,
     label,
     icon,
     to,
@@ -58,6 +60,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
 
   return (
     <button
+      id={id}
       type={type}
       className={baseClass}
       onClick={disabled ? undefined : onClick}

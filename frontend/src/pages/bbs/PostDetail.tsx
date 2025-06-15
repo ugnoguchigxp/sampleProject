@@ -87,7 +87,7 @@ const PostDetail: React.FC = () => {
   }
 
   return (
-    <div className={`max-w-4xl mx-auto px-4 py-6 ${isMobile ? 'px-2 py-3' : ''}`}>
+    <div id="bbs-post-detail-page" className={`max-w-4xl mx-auto px-4 py-6 ${isMobile ? 'px-2 py-3' : ''}`}>
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
           <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'items-center space-x-2'}`}>
@@ -140,11 +140,12 @@ const PostDetail: React.FC = () => {
               )}
             </div>
             <Button
+              id="post-comment-button"
               label={addCommentMutation.status === 'pending' ? t('posting', 'Posting...') : t('postComment', 'Post Comment')}
               type="submit"
               disabled={addCommentMutation.status === 'pending'}
               className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium disabled:opacity-50 flex items-center gap-2"
-            >
+              aria-label={t('postComment', 'Post Comment')}>
               <FiSend className="inline-block" />
             </Button>
           </form>
