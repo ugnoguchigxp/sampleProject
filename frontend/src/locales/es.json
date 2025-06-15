@@ -49,6 +49,7 @@
   "name": "Nombre",
   "next": "Siguiente",
   "no": "No",
+  "noContentRoot": "No hay contenido en la página raíz",
   "noPosts": "Aún no hay publicaciones",
   "notEntered": "No ingresado",
   "notFoundMessage": "La página que busca no existe o ha sido movida.",

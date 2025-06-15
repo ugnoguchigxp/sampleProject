@@ -82,36 +82,39 @@ Node.js/Express/Prisma/PostgreSQLのバックエンドと、React/Vite/TailwindC
 
    ```sh
    # ルートディレクトリで実行すると全パッケージの依存関係がインストールされます
-   pnpm install
+   pnpm install:all
    ```
 
-3. 以下のどちらかの方法で起動
+3. DB初期化 migrationとSeedingを実施します。
+  
+   ```sh
+   #DB初期化
+   pnpm db:reset
+   ```
 
-   #### a) Dockerを使う（推奨）
+4. frontendとbackendのビルド
 
    ```sh
-   docker-compose up --build
+   pnpm build:all
    ```
 
    - 初回起動時は依存パッケージのインストールやDBマイグレーションが自動で行われます。
 
-   #### b) pnpmを使ってローカルで起動
-
    ```sh
-   # バックエンド用にPostgreSQLだけ起動
-   docker-compose up -d postgres
-
-   # マイグレーションを実行
-   cd backend
-   pnpm prisma migrate dev
-   pnpm prisma generate
-
-   # ルートに戻り、開発サーバーを起動
-   cd ..
-   pnpm run dev:all
+   # dockerの初期化、起動
+   pnpm docker:reset:detach
    ```
 
-4. アクセス
+5. フロントエンドのホットリロードを有効にする為、コンテナ起動を止めて、Frontendを直接起動する。(同様っｊ)
+
+   ```sh
+   # docker frontendの停止。
+   docker stop frontend
+   # ローカルで起動
+   pnpm dev:frontend
+   ```
+
+6. アクセス
 
    - フロントエンド: [http://localhost:3000](http://localhost:3000)
    - バックエンドAPI: [http://localhost:3001/api](http://localhost:3001/api)

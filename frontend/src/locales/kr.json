@@ -49,6 +49,7 @@
   "name": "이름",
   "next": "다음",
   "no": "아니오",
+  "noContentRoot": "루트 페이지에 콘텐츠가 없습니다",
   "noPosts": "아직 게시글이 없습니다",
   "notEntered": "입력되지 않음",
   "notFoundMessage": "찾으시는 페이지가 없거나 이동되었습니다.",
