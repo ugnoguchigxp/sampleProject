@@ -11,6 +11,7 @@ import CreatePost from '../pages/bbs/CreatePost';
 import LanguageSelector from '../components/LanguageSelector';
 import Button from '../components/Button';
 import TreeMenu from '../components/TreeMenu';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export type ModalContextType = {
   setIsModalOpen: (isOpen: boolean) => void;
@@ -24,6 +25,7 @@ const Layout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPostButton, setNewPostButton] = useState<ReactNode>();
+  const isMobile = useIsMobile();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -123,10 +125,16 @@ const Layout: React.FC = () => {
           <TreeMenu onSelect={() => setIsMobileMenuOpen(false)} />
         </Drawer>
       </nav>
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        {/* 下の階層から callbackを受け取る為のもの */}
-        <Outlet context={{ setIsModalOpen, setNewPostButton }} />
-      </main>
+      <div className="flex">
+        <div className='p-4 w-1/6 min-w-48 '>
+        { 
+          !isMobile && <TreeMenu onSelect={() => {}} />
+        }
+        </div>
+        <main className='p-4 w-5/6'>
+          <Outlet context={{ setIsModalOpen, setNewPostButton }} />
+        </main>
+      </div>
     </div>
   );
 };

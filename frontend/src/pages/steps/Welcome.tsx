@@ -9,17 +9,21 @@ export function Welcome() {
   const { setFormData, formData } = useStep();
   const { t } = useTranslation();
 
+  // 初回のみformData.agreementから復元
+  useEffect(() => {
+    if (formData.agreement) {
+      setAgreement(formData.agreement);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // agreementの状態をStepContextのformDataに保存
   useEffect(() => {
     setFormData({ agreement });
   }, [agreement, setFormData]);
 
-  // 初期値をformData.agreementから復元
-  useEffect(() => {
-    if (formData.agreement && agreement !== formData.agreement) {
-      setAgreement(formData.agreement);
-    }
-  }, [formData.agreement, agreement]);
+  // agreementが"disagree"なら警告メッセージとトップに戻るボタンを表示
+  const showDisagreeAlert = agreement === 'disagree';
 
   const terms = t('welcome.terms', `\n利用規約（サンプル）\n第1条（目的）\n本規約は、ユーザーが本サービスを利用する際の一切の行為に適用されます。\n第2条（禁止事項）\nユーザーは以下の行為を行ってはなりません。\n・法令または公序良俗に違反する行為\n・犯罪行為に関連する行為\n・その他運営者が不適切と判断する行為\n第3条（免責事項）\n本サービスの利用により生じた損害について、運営者は一切の責任を負いません。\n...（以下省略）...`);
 
@@ -63,6 +67,11 @@ export function Welcome() {
               {t('disagree', 'I do not agree')}
             </label>
           </div>
+          {showDisagreeAlert && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              <p className="mb-2">{t('welcome.disagreeMessage', '同意いただけない場合、本サービスをご利用いただけません。')}</p>
+            </div>
+          )}
         </div>
       </Steps>
     </div>
