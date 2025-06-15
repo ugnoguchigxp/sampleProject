@@ -18,47 +18,24 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 const App: React.FC = () => {
   return (
     <AuthProvider>
-    <Routes>
-      <Route element={<Layout />}>
-        <Route
-          path="/step-input"
-          element={
-            <ProtectedRoute>
-              <StepInput />
-            </ProtectedRoute>
-          }
-        />
+      <Routes>
+        {/* Layoutを使わないルート */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* 認証が必要なルート */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/bbs/list"
-          element={
-            <ProtectedRoute>
-              <List />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/posts/:id"
-          element={
-            <ProtectedRoute>
-              <PostDetail />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+        <Route path="/step-input" element={
+          <ProtectedRoute>
+            <StepInput />
+          </ProtectedRoute>
+        } />
+        {/* Layoutを使うルート */}
+        <Route element={<Layout />}>
+          {/* 認証が必要なルート */}
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/bbs/list" element={<ProtectedRoute><List /></ProtectedRoute>} />
+          <Route path="/posts/:id" element={<ProtectedRoute><PostDetail /></ProtectedRoute>} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </AuthProvider>
   );
 };

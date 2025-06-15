@@ -18,6 +18,7 @@ const List: React.FC = () => {
 
   const postButton = isMobile ? (
     <Button
+      id="create-post-button"
       onClick={() => setIsModalOpen(true)}
       icon={FiPlus}
       aria-label={t('createPost', 'Create post')}
@@ -25,6 +26,7 @@ const List: React.FC = () => {
     />
   ) : (
     <Button
+      id="create-post-button"
       onClick={() => setIsModalOpen(true)}
       icon={FiPlus}
       label={t('createPost', 'Create post')}
@@ -66,7 +68,7 @@ const List: React.FC = () => {
   }
 
   return (
-    <div className={`px-4 py-4 ${isMobile ? 'pt-2 pb-2' : ''}`}>
+    <div id="bbs-list-page" className={`px-4 py-4 ${isMobile ? 'pt-2 pb-2' : ''}`}>
       <div className="mb-6">
         <h1 className={`text-2xl font-bold text-gray-900 ${isMobile ? 'text-lg' : ''}`}>{t('latestPosts', 'Latest Posts')}</h1>
         <p className={`mt-1 text-gray-600 ${isMobile ? 'text-sm' : ''}`}>{t('sampleBBS', 'Sample BBS')}</p>
@@ -95,7 +97,7 @@ const List: React.FC = () => {
                 {posts.map((post) => (
                   <tr key={post.id} className="hover:bg-gray-50 transition">
                     <td className="px-3 py-2 border-b">
-                      <Link to={`/posts/${post.id}`} className="text-blue-700 hover:underline">
+                      <Link to={`/posts/${post.id}`} className="text-blue-700 hover:underline" data-testid="post-title">
                         {/* mobile時文字数制限 */}
                         {isMobile && post.title.length > 25 
                           ? `${post.title.slice(0, 25)}...` 

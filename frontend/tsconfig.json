@@ -23,6 +23,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
+    "**/*.ts",
     "src/**/*",
     "Test/**/*.test.ts",
     "Test/**/*.test.tsx",

@@ -5,41 +5,33 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function seedUsers(count = 5) {
-  // 既存のユーザーを削除
-  await prisma.user.deleteMany({});
-  console.log('Deleted existing users');
+  // 既存ユーザーの削除は行わない
 
-  const exampleNames = [
-    "John Doe",
-    "Jane Smith",
-    "Alice Johnson",
-    "Bob Brown",
-    "Charlie Davis",
-    "Diana Evans",
-    "Ethan Foster",
-    "Fiona Green",
-    "George Harris",
-    "Hannah Lee"
-  ];
+  // E2Eテスト用の固定ユーザー
+  const e2eUser = {
+    id: 'e2e-test-user-id',
+    email: 'e2e-test@example.com',
+    username: 'test_e2e',
+    password: bcrypt.hashSync('Password@123', 10),
+  };
 
+  // Test-[number]命名ルールのユーザー
   const users = Array.from({ length: count }, (_, i) => {
-    const name = exampleNames[i % exampleNames.length] || `User${i + 1}`;
-    // 固定の値を使用して同じユーザー名が生成されるようにする
-    const uniqueSuffix = `${i}`;
-    const username = `${name.toLowerCase().replace(/\s+/g, '_')}_${uniqueSuffix}`;
+    const firstName = `Test-${i + 1}`;
+    const username = `test_${i + 1}`;
     return {
-      email: `${name.toLowerCase().replace(/\s+/g, '.')}+${uniqueSuffix}@example.com`,
-      username: username.slice(0, 20), // Truncate to 20 characters
+      email: `${firstName.toLowerCase()}@example.com`,
+      username: username.slice(0, 20),
       password: bcrypt.hashSync('password', 10),
-      // Removed 'name' field as it is not defined in the Prisma schema
     };
   });
 
-  await prisma.user.createMany({ 
-    data: users,
+  // 固定ユーザーを先頭に追加
+  await prisma.user.createMany({
+    data: [e2eUser, ...users],
     skipDuplicates: true // 重複があった場合はスキップする
   });
-  console.log(`${count} users seeded.`);
+  console.log(`${count + 1} users seeded (including e2e user).`);
 }
 
 seedUsers().catch((e) => {

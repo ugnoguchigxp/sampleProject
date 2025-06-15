@@ -33,10 +33,5 @@
     "docker:clean": "docker-compose down --volumes --remove-orphans",
     "docker:reset": "pnpm run docker:clean && docker-compose up --build",
     "docker:reset:detach": "pnpm run docker:clean && docker-compose up --build -d"
-  },
-  "packageManager": "pnpm@10.11.1",
-  "engines": {
-    "node": ">=20.18.0",
-    "pnpm": ">=10.11.1"
   }
 }

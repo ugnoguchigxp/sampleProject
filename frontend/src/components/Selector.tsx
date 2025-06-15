@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, forwardRef } from 'react';
 
 interface SelectorProps {
+  id?: string;
   options: { value: string; label: string }[];
   onSelect: (value: string) => void;
   selectedValue?: string;
@@ -10,7 +11,7 @@ interface SelectorProps {
 }
 
 const Selector = forwardRef<HTMLButtonElement, SelectorProps>(
-  ({ options, onSelect, selectedValue, className, inputProps, buttonLabel }, ref) => {
+  ({ options, onSelect, selectedValue, className, inputProps,id, buttonLabel }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const [openUpwards, setOpenUpwards] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -55,6 +56,7 @@ const Selector = forwardRef<HTMLButtonElement, SelectorProps>(
     return (
       <div className="relative">
         <button
+          id={id || 'selector-button'}
           ref={ref as any || buttonRef}
           onClick={() => setIsOpen(!isOpen)}
           className={`flex items-center gap-2 px-3 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none ${className || ''}`}

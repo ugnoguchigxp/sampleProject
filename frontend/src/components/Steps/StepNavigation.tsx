@@ -34,13 +34,13 @@ export function StepNavigation() {
   return (
     <div className="fixed bottom-0 left-0 w-full bg-white shadow z-50 mt-8 flex justify-between items-center p-4">
       <Button
-        onClick={prevStep}
-        disabled={currentStep === 0}
+        onClick={currentStep === 0 ? () => navigate('/') : prevStep}
+        disabled={false}
         label={<><MdArrowBack className="w-4 h-4" />{t('back','Back')}</>}
         className={
           'border-2 shadow-sm ' +
           (currentStep === 0
-            ? 'text-gray-400 border-gray-200 bg-gray-50 cursor-not-allowed'
+            ? 'text-gray-700 border-gray-400 hover:border-gray-600 hover:text-gray-900 hover:bg-gray-50 active:bg-gray-100 transition-all'
             : 'text-gray-700 border-gray-400 hover:border-gray-600 hover:text-gray-900 hover:bg-gray-50 active:bg-gray-100 transition-all')
         }
       />
